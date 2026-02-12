@@ -2,147 +2,78 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Álbum Mundial 2026 - ReactJS</title>
-
-  <!-- React y ReactDOM -->
-  <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
-  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
-
-  <!-- React Router DOM -->
-  <script src="https://unpkg.com/react-router-dom@6/umd/react-router-dom.development.js" crossorigin></script>
-
-  <!-- Babel para JSX -->
-  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-
+  <title>Álbum Mundial 2026</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin:0;
-      background:#f9f9f9;
-      text-align:center;
-    }
-
-    h1 {
-      background:#1E90FF;
-      color:white;
-      padding:15px;
-      margin:0;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-    }
-
-    .gallery {
-      display:grid;
-      grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
-      gap:20px;
-      padding:20px;
-    }
-
-    .card {
-      background:white;
-      border-radius:10px;
-      padding:15px;
-      cursor:pointer;
-      transition: transform 0.3s, box-shadow 0.3s;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-    }
-
-    .card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 8px 15px rgba(0,0,0,0.2);
-    }
-
-    .card h3 { margin:5px 0; color:#333; }
-    .card h4 { margin:5px 0; color:#555; }
-
-    .detail {
-      padding:30px;
-      background:white;
-      border-radius:10px;
-      margin:20px auto;
-      max-width:400px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-    }
-
-    .back-btn {
-      display:inline-block;
-      margin-top:20px;
-      padding:10px 20px;
-      background:#1E90FF;
-      color:white;
-      text-decoration:none;
-      border-radius:5px;
-      cursor:pointer;
-      transition: background 0.3s;
-    }
-
-    .back-btn:hover { background:#104E8B; }
+    body { font-family: Arial, sans-serif; margin:0; background:#f2f2f2; text-align:center; }
+    h1 { background:#006400; color:white; padding:15px; margin:0; }
+    .gallery { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:20px; padding:20px; }
+    .card { background:white; border:3px solid #ddd; border-radius:10px; padding:15px; cursor:pointer; transition:0.3s; }
+    .card:hover { transform:scale(1.05); }
+    .card h3 { margin:5px 0; }
+    .card h4 { margin:5px 0; color: #555; }
+    .detail { display:none; padding:20px; background:white; border:3px solid #ddd; border-radius:10px; margin:20px; }
+    .back-btn { display:inline-block; margin-top:15px; padding:10px 15px; background:#006400; color:white; text-decoration:none; border-radius:5px; cursor:pointer; }
   </style>
 </head>
 <body>
-  <div id="root"></div>
 
-  <script type="text/babel">
-    const { HashRouter, Routes, Route, Link, useParams } = ReactRouterDOM;
+<h1>Álbum Mundial 2026 ⚽</h1>
 
-    const players = [
-      { id:1, name:"Lionel Messi", team:"Argentina", desc:"Capitán y líder, campeón de la Copa América 2021." },
-      { id:2, name:"Kylian Mbappé", team:"Francia", desc:"Delantero veloz, campeón del mundo 2018." },
-      { id:3, name:"Neymar Jr", team:"Brasil", desc:"Estrella ofensiva, gran regate y goles espectaculares." },
-      { id:4, name:"Cristiano Ronaldo", team:"Portugal", desc:"Delantero legendario con récords históricos." },
-      { id:5, name:"Luka Modric", team:"Croacia", desc:"Mediocampista creativo y capitán croata." },
-      { id:6, name:"Kevin De Bruyne", team:"Bélgica", desc:"Mediocampista excepcional, precisión en pases." },
-      { id:7, name:"Harry Kane", team:"Inglaterra", desc:"Delantero goleador y referente del equipo inglés." },
-      { id:8, name:"Pedri", team:"España", desc:"Joven talento, creativo y con gran visión de juego." },
-      { id:9, name:"Manuel Neuer", team:"Alemania", desc:"Arquero histórico con reflejos impresionantes." },
-      { id:10, name:"Luis Suárez", team:"Uruguay", desc:"Delantero con gran instinto goleador." }
-    ];
+<div class="gallery" id="gallery"></div>
 
-    function Gallery() {
-      return (
-        <div className="gallery">
-          {players.map(player => (
-            <div className="card" key={player.id}>
-              <Link to={`/player/${player.id}`}>
-                <h3>{player.name}</h3>
-                <h4>{player.team}</h4>
-              </Link>
-            </div>
-          ))}
-        </div>
-      );
-    }
+<div class="detail" id="detail">
+  <h2 id="detail-name"></h2>
+  <h3 id="detail-team"></h3>
+  <p id="detail-desc"></p>
+  <div class="back-btn" onclick="showGallery()">⬅ Volver al álbum</div>
+</div>
 
-    function Detail() {
-      const { id } = useParams();
-      const player = players.find(p => p.id === parseInt(id));
+<script>
+const players = [
+  { id:1, name:"Lionel Messi", team:"Argentina", desc:"Capitán y líder, campeón de la Copa América 2021." },
+  { id:2, name:"Kylian Mbappé", team:"Francia", desc:"Delantero veloz, campeón del mundo 2018." },
+  { id:3, name:"Neymar Jr", team:"Brasil", desc:"Estrella ofensiva, gran regate y goles espectaculares." },
+  { id:4, name:"Cristiano Ronaldo", team:"Portugal", desc:"Delantero legendario con récords históricos." },
+  { id:5, name:"Luka Modric", team:"Croacia", desc:"Mediocampista creativo y capitán croata." },
+  { id:6, name:"Kevin De Bruyne", team:"Bélgica", desc:"Mediocampista excepcional, precisión en pases." },
+  { id:7, name:"Harry Kane", team:"Inglaterra", desc:"Delantero goleador y referente del equipo inglés." },
+  { id:8, name:"Pedri", team:"España", desc:"Joven talento, creativo y con gran visión de juego." },
+  { id:9, name:"Manuel Neuer", team:"Alemania", desc:"Arquero histórico con reflejos impresionantes." },
+  { id:10, name:"Luis Suárez", team:"Uruguay", desc:"Delantero con gran instinto goleador." }
+];
 
-      if (!player) return <h2>Jugador no encontrado</h2>;
+// Mostrar galería
+const galleryDiv = document.getElementById('gallery');
+const detailDiv = document.getElementById('detail');
 
-      return (
-        <div className="detail">
-          <h2>{player.name}</h2>
-          <h3>{player.team}</h3>
-          <p>{player.desc}</p>
-          <Link to="/" className="back-btn">⬅ Volver al álbum</Link>
-        </div>
-      );
-    }
+players.forEach(player => {
+  const card = document.createElement('div');
+  card.className = 'card';
+  card.onclick = () => showDetail(player.id);
+  
+  card.innerHTML = `
+    <h3>${player.name}</h3>
+    <h4>${player.team}</h4>
+  `;
+  
+  galleryDiv.appendChild(card);
+});
 
-    function App() {
-      return (
-        <HashRouter>
-          <h1>Álbum Mundial 2026 ⚽</h1>
-          <Routes>
-            <Route path="/" element={<Gallery />} />
-            <Route path="/player/:id" element={<Detail />} />
-          </Routes>
-        </HashRouter>
-      );
-    }
+function showDetail(id) {
+  const player = players.find(p => p.id === id);
+  document.getElementById('detail-name').innerText = player.name;
+  document.getElementById('detail-team').innerText = player.team;
+  document.getElementById('detail-desc').innerText = player.desc;
+  
+  galleryDiv.style.display = 'none';
+  detailDiv.style.display = 'block';
+}
 
-    ReactDOM.createRoot(document.getElementById("root")).render(<App />);
-  </script>
+function showGallery() {
+  detailDiv.style.display = 'none';
+  galleryDiv.style.display = 'grid';
+}
+</script>
+
 </body>
 </html>
-
